@@ -1,5 +1,5 @@
  <footer class="p-2">
-        <p class="text-white p-1 m-1 h6">Copyright &copy; 2018 BCLSWL.<br>All rights reserved.<br><img border="0" src="http://cc.amazingcounters.com/counter.php?i=3214800&c=9644713" alt="COUNTER"></p>
+        <p class="text-white p-1 m-1 h6">Copyright &copy; 2018 <a href="https://ibcl.us/">BCLSWL</a>.<br>All rights reserved.</p>
 </footer>
   
   

@@ -16,6 +16,13 @@ error_reporting( E_ALL&~E_NOTICE );
 <link href="//cdn.bootcss.com/video.js/5.20.4/alt/video-js-cdn.min.css" rel="stylesheet" />
 <script src="//libs.cdnjs.net/video.js/5.20.4/video.min.js"></script>
 <script type="text/javascript" src="./inc/4.js"></script>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-6545292450138667",
+    enable_page_level_ads: true
+  });
+</script>
 <link rel="stylesheet" href="./inc/theme.css" type="text/css">
 <link rel="stylesheet" href="./inc/iconfont.css">
 </head>

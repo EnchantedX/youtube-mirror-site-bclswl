@@ -2,7 +2,7 @@
 /**
  * Youtube Proxy 
  * Simple Youtube PHP Proxy Server
- * @author BCLSWL
+ * @author ZXQ
  * @version V1.2
  * @description 核心操作函数集合
  */
@@ -28,7 +28,7 @@ require_once(dirname(__FILE__).'/YouTubeDownloader.php');
    return $f;  
 }
 //获取类别热门视频
-function get_trending($apikey,$max,$pageToken='',$regionCode='vn'){
+function get_trending($apikey,$max,$pageToken='',$regionCode=GJ_CODE){
     $apilink='https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&chart=mostPopular&regionCode='.$regionCode.'&maxResults='.$max.'&key='.$apikey.'&pageToken='.$pageToken;
      return json_decode(get_data($apilink),true);
 }
@@ -53,67 +53,54 @@ function get_related_video($vid,$apikey){
 
 
 //获取用户频道视频
-function get_channel_video($cid,$pageToken='',$apikey,$regionCode='VN'){
+function get_channel_video($cid,$pageToken='',$apikey,$regionCode=GJ_CODE){
    $apilink='https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&maxResults=50&type=video&regionCode='.$regionCode.'&hl=zh-CN&channelId='.$cid.'&key='.$apikey.'&pageToken='.$pageToken;
    return json_decode(get_data($apilink),true);
 }
 
 //获取视频类别内容
-function videoCategories($apikey,$regionCode='HK'){
-   $apilink='https://www.googleapis.com/youtube/v3/videoCategories?part=snippet&regionCode='.$regionCode.'&hl=zh-CN&key='.$apikey;
-   return json_decode(get_data($apilink),true);
+function videoCategories($apikey=APIKEY,$regionCode=GJ_CODE){
+   $apicache = '/tmp/ytb_videoCategories_'.$regionCode;
+   $json = file_get_contents($apicache);
+   if (empty($json)) {
+       $apilink='https://www.googleapis.com/youtube/v3/videoCategories?part=snippet&regionCode='.$regionCode.'&hl=zh-CN&key='.$apikey;
+       $json = get_data($apilink);
+      file_put_contents($apicache,$json);
+      file_put_contents($apicache.".ts","REQUEST_TIME: " . $_SERVER['REQUEST_TIME']);
+   }
+   $ret = json_decode($json,true);
+   $items = $ret['items'];
+   if (strtolower($regionCode) == 'tw') {
+      return array_filter($items, function($v){
+         return array_search($v['id'], ['18','21','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44']) === FALSE;
+      });
+   }
+   return $items;
 }
-
 
 function categorieslist($id){
-   $data=array(
-    '1' => '电影和动画',
-    '2' => '汽车',
-    '10' => '音乐',
-    '15' => '宠物和动物',
-    '17' => '体育',
-    '18' => '短片',
-    '19' => '旅游和活动',
-    '20' => '游戏',
-    '21' => '视频博客',
-    '22' => '人物和博客',
-    '23' => '喜剧',
-    '24' => '娱乐',
-    '25' => '新闻和政治',
-    '26' => 'DIY和生活百科',
-    '27' => '教育',
-    '28' => '科学和技术',
-    '30' => '电影',
-    '31' => '动漫/动画',
-    '32' => '动作/冒险',
-    '33' => '经典',
-    '34' => '喜剧',
-    '35' => '纪录片',
-    '36' => '剧情片',
-    '37' => '家庭片',
-    '38' => '外国',
-    '39' => '恐怖片',
-    '40' => '科幻/幻想',
-    '41' => '惊悚片',
-    '42' => '短片',
-    '43' => '节目',
-    '44' => '预告片'
-       );
-     if($id=='all'){
-     return $data;    
-     }else{
-      return $data[$id];   
-     }
+    $categories = videoCategories();
+    $data = array();
+    foreach ($categories as $k => $v) {
+        $data[$v['id']] = $v['snippet']['title'];
+    }
+
+    if($id=='all'){
+        return $data;
+    }else{
+        return $data[$id];
+    }
 }
+
 //获取视频类别内容
-function Categories($id,$apikey,$pageToken='',$order='relevance',$regionCode='VN'){
+function Categories($id,$apikey,$pageToken='',$order='relevance',$regionCode=GJ_CODE){
    $apilink='https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&&regionCode='.$regionCode.'&hl=zh-ZH&maxResults=48&videoCategoryId='.$id.'&key='.$apikey.'&order='.$order.'&pageToken='.$pageToken;
    return json_decode(get_data($apilink),true);
 }
 
 
 //获取搜索数据
-function get_search_video($query,$apikey,$pageToken='',$type='video',$order='relevance',$regionCode='VN'){
+function get_search_video($query,$apikey,$pageToken='',$type='video',$order='relevance',$regionCode=GJ_CODE){
    $apilink='https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=48&order='.$order.'&type='.$type.'&q='.$query.'&key='.$apikey.'&pageToken='.$pageToken;
    return json_decode(get_data($apilink),true);
 }
@@ -185,7 +172,7 @@ $videotype=array(
     'Unknown' => array('N/A','N/A','3gpp'), 
     );
     
-//获取相关频道 api不支持，靠采集完成
+//获取相关频道 api 不支持，靠采集完成
 require_once(dirname(__FILE__).'/inc/phpQuery.php');
 require_once(dirname(__FILE__).'/inc/QueryList.php');
 use QL\QueryList;
@@ -201,7 +188,7 @@ return $data = QueryList::Query(get_data($channel),$rules)->data;
 
 //采集抓取随机推荐内容
 function random_recommend(){
-   $dat=get_data('https://www.youtube.com/?gl=TW&hl=zh-CN'); 
+   $dat=get_data('https://www.youtube.com/?gl='.constant("GJ_CODE").'&hl=zh-CN'); 
    $rules = array(
     't' => array('#feed .individual-feed .section-list li .item-section li .feed-item-container .feed-item-dismissable .shelf-title-table .shelf-title-row h2 .branded-page-module-title-text','text'),
     'html' => array('#feed .individual-feed .section-list li .item-section li .feed-item-container .feed-item-dismissable .compact-shelf .yt-viewport .yt-uix-shelfslider-list','html'),
@@ -408,16 +395,16 @@ function strdecode($string,$key='09KxDsIIe|+]8Fo{YP<l+3!y#>a$;^PzFpsxS9&d;!l;~M>
 }
 
 //分享功能
-function shareit($id,$title='免翻墙Youtube镜像'){
-    $pic=ROOT_PART.'/thumbnail.php?vid='.$id;
-    $url=ROOT_PART.'watch-'.$id.'.html';
+function shareit($id,$title='YouTube'){
+    $pic=ROOT_PART.'thumbnail.php%3Fvid%3D'.$id;
+    $url=ROOT_PART.'watch.php%3Fv%3D'.$id;
     $title=str_replace('&','||',$title);
     $title=str_replace('"',' ',$title);
      $title=str_replace("'",' ',$title);
-    $des='【UTB-免翻墙Youtube镜像】我正在通过这个网站看《'.$title.'》不用翻墙看全球视频，手机电脑都能看，快来试试吧！';
+    $des='我正在通过这个网站看 YouTube 上名为《'.$title.'》的视频。';
     return "<div id='share'>
   <a class='icoqz' href='https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=".$url."&desc=".$des."&title=".$titlel."
-&pics=".$pic."' target='blank' title='分享到QQ空间'><i class='iconfont icon-qqkongjian icofontsize'></i></a>
+&pics=".$pic."' target='blank' title='分享到 QQ 空间'><i class='iconfont icon-qqkongjian icofontsize'></i></a>
 
   <a class='icotb' href='http://tieba.baidu.com/f/commit/share/openShareApi?title=".$title."&url=".$url."&to=tieba&type=text&relateUid=&pic=".$pic."&key=&sign=on&desc=&comment=".$title."' target='blank' title='分享到贴吧'><i class='iconfont icon-40 icofontsize'></i></a>
 

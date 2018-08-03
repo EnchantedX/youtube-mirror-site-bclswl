@@ -116,15 +116,16 @@ if(isset($_GET['v'])){
           <script>$("#menu").load('<?php echo './ajax/ajax.php?type=menu'?>');</script>
     </div>
       <div class="col-md-9 ">
-         <div class="col-md-12 pb-3 d-none d-sm-none d-md-block" style="background: url(./inc/homebg.jpg) no-repeat;background-size: cover;background-position: center -80px;text-align: center;
+    <div class="col-md-12 pb-3 d-none d-sm-none d-md-block" style="background: url(./inc/homebg.jpg) no-repeat;background-size: cover;background-position: center -80px;text-align: center;
     "> 
-   <h3 class="pt-5 pb-2 text-white">HELLO WORLD!</h3>
+   <h3 class="pt-5 pb-2 text-white">Hello, World. :-)</h3>
     <form>
   <div class="form-group" >
-      <input type="text" name="v" style="width: 50%;height: 50px;border: none;box-sizing: border-box;padding: 14px 18px;" placeholder="请输入视频ID或Youtube链接"  autocomplete="off" /><button type="submit"  style="width: 18%;border: none;height: 50px;background-color: #e62117;color: #fff;font-size: 18px;display: inline-block;" ><i class="fa fa-youtube-play fa-lg pr-1"></i>播放</button>
+      <input type="text" name="v" style="width: 50%;height: 50px;border: none;box-sizing: border-box;padding: 14px 18px;" placeholder="请输入视频 ID 或链接"  autocomplete="off" /><button type="submit"  style="width: 18%;border: none;height: 50px;background-color: #e62117;color: #fff;font-size: 18px;display: inline-block;" ><i class="fa fa-youtube-play fa-lg pr-1"></i>播放</button>
   </div>
     </form>
-    <p class="text-white m-0">Youtube Mirror.</p>
+    <p class="text-white m-0">这是一个 YouTube 的镜像站。</p>
+    <p class="text-white m-0">使用请遵守当地法律法规。</p>
     </div>
     
     <div class="row pt-2 pb-2">

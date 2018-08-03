@@ -7,7 +7,11 @@ error_reporting( E_ALL&~E_NOTICE );
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?php echo $headtitle ?></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<meta name="robots" content="noarchive,noindex,nofollow">
+<meta name="Baiduspider" content="noarchive">
+<meta name="googlebot" content="noarchive">
+
 <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
 <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" >
 <link href="https://cdn.bootcss.com/Swiper/4.0.6/css/swiper.min.css" rel="stylesheet"> 
@@ -16,15 +20,10 @@ error_reporting( E_ALL&~E_NOTICE );
 <link href="//cdn.bootcss.com/video.js/5.20.4/alt/video-js-cdn.min.css" rel="stylesheet" />
 <script src="//libs.cdnjs.net/video.js/5.20.4/video.min.js"></script>
 <script type="text/javascript" src="./inc/4.js"></script>
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>
-  (adsbygoogle = window.adsbygoogle || []).push({
-    google_ad_client: "ca-pub-6545292450138667",
-    enable_page_level_ads: true
-  });
-</script>
 <link rel="stylesheet" href="./inc/theme.css" type="text/css">
 <link rel="stylesheet" href="./inc/iconfont.css">
+<link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+<link rel="icon" href="./favicon.ico" type="image/x-icon">
 </head>
 <body>
 <nav class="navbar navbar-expand-md bg-primary navbar-dark">
@@ -37,7 +36,7 @@ error_reporting( E_ALL&~E_NOTICE );
 		     <form action="search.php" style="margin-bottom:0px">
 			<div class="input-group col-md-12">
 			   
-				<input type="text" name="q"  class="search-query form-control" id="youtube" placeholder="搜索 Youtube"><span class="input-group-btn"><button class="btn btn-danger" type="submit" style="z-index:4"><span class="fa d-inline fa-search"></span></button></span>
+				<input type="text" name="q"  class="search-query form-control" id="youtube" placeholder="检索"><span class="input-group-btn"><button class="btn btn-danger" type="submit" style="z-index:4"><span class="fa d-inline fa-search"></span></button></span>
 				</div>
 			</form>
 		<script >

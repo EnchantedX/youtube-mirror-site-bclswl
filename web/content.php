@@ -6,7 +6,7 @@ $sortid = $_GET['sortid'];
 $order  = isset($_GET['order']) ? $_GET['order'] : 'relevance';
 switch ($cont) {
 case 'history':
-    $headtitle='历史记录'.' - '.SITE_NAME;
+    $headtitle='观看记录'.' - '.SITE_NAME;
 	break;
 case 'category':
     $headtitle=categorieslist($sortid).' - '.SITE_NAME;
@@ -15,10 +15,10 @@ case 'trending':
     $headtitle='时下流行'.' - '.SITE_NAME;
 	break;
 case 'DMCA':
-    $headtitle='DMCA'.' - '.SITE_NAME;
+    $headtitle='免责声明'.' - '.SITE_NAME;
 	break;
 case 'video':
-    $headtitle='视频下载工具'.' - '.SITE_NAME;
+    $headtitle='视频下载'.' - '.SITE_NAME;
 	break;
 case 'api':
     $headtitle='API'.' - '.SITE_NAME;
